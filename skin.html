@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <title>Foxtale</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5e9ff;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+
+    .top-banner {
+      background: #d9b9ff;
+      color: #000;
+      text-align: center;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .top-banner span {
+      font-weight: bold;
+    }
+
+    header {
+      background: #fff;
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav ul li {
+      cursor: pointer;
+      font-weight: 500;
+      position: relative;
+    }
+
+    nav ul li:hover {
+      color: #a34bf4;
+    }
+
+    .banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background: #fdf4ec;
+      padding: 40px 5%;
+    }
+
+    .banner-text h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .banner-text span {
+      color: #ff6b6b;
+    }
+
+    .banner-text p {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .product-images img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Category Section */
+    .categories {
+      background: #fff;
+      padding: 40px 5%;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .cat-item {
+      width: 130px;
+      background: #f9f9f9;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      padding: 15px 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .cat-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .img-box {
+      width: 100%;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .cat-item img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+
+    .cat-item div:last-child {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 20px 0;
+    }
+
+    .nav img {
+      height: 60px;
+      border-bottom: 2px solid transparent;
+      transition: border 0.3s;
+    }
+
+    .nav img.active,
+    .nav img:hover {
+      border-color: black;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    nav ul li input[type="text"] {
+      padding: 6px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .section {
+      margin-bottom: 50px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      width: 100%;
+      margin-top: 30px;
+    }
+
+    .products {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 300px;
+    }
+
+    .card img {
+      width: 100%;
+    }
+
+    .card .tag {
+      background-color: #ffcc00;
+      color: #000;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 0 0 10px 0;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 12px;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .rating {
+      background-color: #f5f5f5;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .price-add {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-weight: 600;
+    }
+
+    .add-btn {
+      background-color: black;
+      color: white;
+      padding: 5px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .coupon {
+      color: #e56767;
+      font-size: 12px;
+    }
+    .section-title {
+  text-align: center;
+  margin: 30px 0 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.section-title h2 {
+  font-size: 2rem;
+  color: #333;
+  border-bottom: 2px solid #ff69b4;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+ #preload {
+      display: none;
+    }
+
+    .running_man {
+      width: 570px;
+      height: 270px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      overflow: visible;
+    }
+
+    .running_man .man {
+  z-index: 10;
+  top: -130px;
+  left: -600px;
+  position: absolute;
+  width: 640px;
+  height: 480px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('your-image-path.jpg'); /* Replace with actual image URL */
+}
+
+
+    .running_man .textarea span {
+      font-size: 24px;
+      display: block;
+      color: #1d1f20;
+      opacity: 0;
+      font-family: 'Luckiest Guy', cursive;
+      transition: all 400ms ease;
+      transform: translateX(-100px);
+      user-select: none;
+    }
+
+    .running_man .textarea span:nth-child(1) {
+      margin-left: 7px;
+      transition-delay: 400ms;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .running_man .textarea span:nth-child(2) {
+      z-index: 12;
+      font-size: 160px;
+      color: #1d1f20;
+      position: relative;
+      transition-delay: 600ms;
+      font-weight: bold;
+    }
+
+    .running_man .textarea span:nth-child(3) {
+      z-index: 9;
+      position: absolute;
+      font-size: 120px;
+      margin: -135px 0 0 300px;
+      transition-delay: 700ms;
+      font-weight: bold;
+      color: #1d1f20;
+    }
+
+    .running_man .textarea span:nth-child(4) {
+      color: #ef3a55;
+      margin-top: -45px;
+      font-size: 130px;
+      transition-delay: 800ms;
+      font-weight: bold;
+    }
+
+    .running_man.active .textarea span {
+      transform: translateX(0);
+      opacity: 0.95;
+    }
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.slider {
+  width: 80%;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.slides {
+  display: flex;
+  width: 300%;
+  height: 100%;
+}
+
+.slides input {
+  display: none;
+}
+
+.slide {
+  width: 100%;
+  transition: 0.6s ease-in-out;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Manual Navigation */
+.navigation-manual {
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.manual-btn {
+  border: 2px solid #000;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 0 10px;
+}
+
+.manual-btn:hover {
+  background: #000;
+}
+
+/* Positioning slides using radio buttons */
+#radio1:checked ~ .first {
+  margin-left: 0;
+}
+
+#radio2:checked ~ .first {
+  margin-left: -100%;
+}
+
+#radio3:checked ~ .first {
+  margin-left: -200%;
+}
+
+
+  </style>
+</head>
+  <div class="top-banner">
+    Upto <span>15% Off</span> on all products | <strong>Code: DETAN15</strong>
+  </div>
+
+  <header>
+    <div class="logo">foxtale</div>
+    <nav>
+  <ul>
+    <li>Skincare</li>
+    <li>Mask <span style="color: green; font-size: 10px;">NEW</span></li>
+    <li>Facewash</li>
+    <li>Bodycare</li>
+    <li>Haircare</li>
+    <li><input type="text" placeholder="Search 🔍" style="padding: 4px;"></li>
+    <li class="cart-icon">🛒<span class="cart-count" id="cart-count">0</span></li>
+  </ul>
+</nav>
+
+  </header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Slider</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="banner-text">
+    <div class="slide first">
+      <img src="head.webp" alt="Slide 1">
+    </div>
+  </div>
+   
+ <div class="section-title" id="sunscreens-heading">
+  <h2>Sunscreens</h2>
+</div>
+
+  <div class="section">
+   
+    <div class="products">
+      <div class="card">
+        <div style="position: relative;">
+          <span class="tag">MOST-LOVED</span>
+          <img src="1.webp" />
+        </div>
+        <div class="card-body">
+          <span class="rating">★ 4.8</span>
+          <div class="title">SPF 70 Dewy Finish Sunscreen</div>
+          <div class="desc">Dewy finish, sun protection</div>
+          <div class="price-add">
+            <div>
+              <div class="price">₹ 495</div>
+              <div class="coupon">DETAN15</div>
+            </div>
+            <button class="add-btn">ADD</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="position: relative;">
+          <span class="tag">TRENDING</span>
+          <img src="2.webp" />
+        </div>
+        <div class="card-body">
+          <span class="rating">★ 4.8</span>
+          <div class="title">SPF 70 Matte Finish Sunscreen</div>
+          <div class="desc">Matte finish, sun protection</div>
+          <div class="price-add">
+            <div>
+              <div class="price">₹ 495</div>
+              <div class="coupon">DETAN15</div>
+            </div>
+            <button class="add-btn">ADD</button>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="card">
+        <div style="position: relative;">
+          <span class="tag">CELEBRITY-APPROVED</span>
+          <img src="3.webp" />
+        </div>
+        <div class="card-body">
+          <span class="rating">★ 4.8</span>
+          <div class="title">SPF 50 Glow Sunscreen</div>
+          <div class="desc">Prevents tan & boosts glow</div>
+          <div class="price-add">
+            <div>
+              <div class="price">₹ 349</div>
+              <div class="coupon">DETAN15</div>
+            </div>
+            <button class="add-btn">ADD</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+<div class="section-title" id="sunscreens-heading">
+  <h2>Serum</h2>
+</div>
+  <div class="section">
+    <div class="products">
+
+      <div class="card">
+        <div style="position: relative;">
+          <span class="tag">5-Day glow</span>
+          <img src="s1.webp" />
+        </div>
+        <div class="card-body">
+          <span class="rating">★ 4.8</span>
+          <div class="title">Vitamin C Serum</div>
+          <div class="desc">Fades pigmentation & brightens skin</div>
+          <div class="price-add">
+            <div>
+              <div class="price">₹ 595</div>
+              <div class="coupon">DETAN15</div>
+            </div>
+            <button class="add-btn">ADD</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="position: relative;">
+          <span class="tag">TRENDING</span>
+          <img src="s2.webp" />
+        </div>
+        <div class="card-body">
+          <span class="rating">★ 4.8</span>
+          <div class="title">SPF 70 Matte Finish Sunscreen</div>
+          <div class="desc">Matte finish, sun protection</div>
+          <div class="price-add">
+            <div>
+              <div class="price">₹ 645</div>
+              <div class="coupon">DETAN15</div>
+            </div>
+            <button class="add-btn">ADD</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="position: relative;">
+       
+          <img src="s3.webp" />
+        </div>
+        <div class="card-body">
+          <span class="rating">★ 4.8</span>
+          <div class="title">SPF 50 Glow Sunscreen</div>
+          <div class="desc">Prevents tan & boosts glow</div>
+          <div class="price-add">
+            <div>
+              <div class="price">₹ 599</div>
+              <div class="coupon">DETAN15</div>
+            </div>
+            <button class="add-btn">ADD</button>
+          </div>
+        </div>
+      </div>
+
+      
+
+    </div>
+  </div>
+</body>
+</html>
+
+  <div class="section">
+    <div class="products">
+
+<div class="card">
+        <div style="position: relative;">
+          <img src="s4.webp" />
+        </div>
+        <div class="card-body">
+          <span class="rating">★ 4.8</span>
+          <div class="title">Rapid Spot Reduction Drops</div>
+          <div class="desc">Fades dark spots & patches</div>
+          <div class="price-add">
+            <div>
+              <div class="price">₹ 595</div>
+              <div class="coupon">DETAN15</div>
+            </div>
+            <button class="add-btn">ADD</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="position: relative;">
+          <span class="tag">CELEBRITY-APPROVED</span>
+          <img src="s5.webp" />
+        </div>
+        <div class="card-body">
+          <span class="rating">★ 4.8</span>
+          <div class="title">Brightening Lip Balm | Kit of 2</div>
+          <div class="desc">Prevents tan & boosts glow</div>
+          <div class="price-add">
+            <div>
+              <div class="price">₹ 550</div>
+              <div class="coupon">DETAN15</div>
+            </div>
+            <button class="add-btn">ADD</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="position: relative;">
+          <span class="tag">NEW LAUNCH</span>
+          <img src="s6.webp" />
+        </div>
+        <div class="card-body">
+          <span class="rating">★ 5.0</span>
+          <div class="title">Lip Sleeping Mask with Maracuja Oil</div>
+          <div class="desc">Get cushion-soft lips overnight</div>
+          <div class="price-add">
+            <div>
+              <div class="price">₹ 445</div>
+              <div class="coupon">DETAN15</div>
+            </div>
+            <button class="add-btn">ADD</button>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div class="section-title" id="sunscreens-heading">
+  <h2>Moisturizers</h2>
+</div>
+   
+<div class="section">
+  <div class="products">
+
+    <div class="card">
+      <div style="position: relative;">
+        <span class="tag">SHOP NOW</span>
+        <img src="moist1.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.8</span>
+        <div class="title">Super Glow Moisturizer with Vitamin C</div>
+        <div class="desc">Glowing skin from first use</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 445</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="position: relative;">
+        <span class="tag">BUY NOW</span>
+        <img src="moist2.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.8</span>
+        <div class="title">Nourishing Moisturizer</div>
+        <div class="desc">With Niacinamide & Hyaluronic Acid</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 395</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="position: relative;">
+        <span class="tag">TRENDING</span>
+        <img src="moist3.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.8</span>
+        <div class="title">Hydrating Moisturizer with Ceramide</div>
+        <div class="desc">Smoothens skin texture</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 445</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+ 
+
+  </div> <!-- end of products -->
+</div> <!-- end of section -->
+ <div class="section-title" id="sunscreens-heading">
+  <h2>Toners</h2>
+</div>
+
+<div class="section">
+  <div class="products">
+
+    <div class="card">
+      <div style="position: relative;">
+        <img src="toner1.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.7</span>
+        <div class="title">Glow Toner + Makeup Setting Spray</div>
+        <div class="desc">With Vitamin C and Niacinamide</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 395</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="position: relative;">
+        <img src="toner2.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.7</span>
+        <div class="title">Exfoliating Facial Toner</div>
+        <div class="desc">Reduce pores and brighten skin</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 395</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+ <div class="section-title" id="sunscreens-heading">
+  <h2>Cleanser</h2>
+</div>
+
+<div class="section">
+  <div class="products">
+
+    <div class="card">
+      <div style="position: relative;">
+        <span class="tag">NEW LAUNCH</span>
+        <img src="cleanser1.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.8</span>
+        <div class="title">Super Glow Face Wash</div>
+        <div class="desc">Daily tan remover that boosts glow</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 249</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="position: relative;">
+        <span class="tag">FAVOURITE</span>
+        <img src="cleanser2.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.8</span>
+        <div class="title">Hydrating Face Wash</div>
+        <div class="desc">Makeup remover & cleanser</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 349</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="position: relative;">
+        <img src="cleanser3.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.7</span>
+        <div class="title">Acne Control Cleanser with Salicylic Acid</div>
+        <div class="desc">Reduces acne & regulates oil</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 349</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+ <div class="section-title" id="sunscreens-heading">
+  <h2>Masks</h2>
+</div>
+
+<div class="section">
+  <div class="products">
+    
+    <div class="card">
+      <div style="position: relative;">
+        <span class="tag">TRENDING</span>
+        <img src="mask1.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.7</span>
+        <div class="title">Skin Radiance Mask</div>
+        <div class="desc">Detans & brightens</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 545</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="position: relative;">
+        <span class="tag">TRENDING</span>
+        <img src="mask2.webp" />
+      </div>
+      <div class="card-body">
+        <span class="rating">★ 4.8</span>
+        <div class="title">Overnight Glow Mask</div>
+        <div class="desc">Salon-like brightening facial</div>
+        <div class="price-add">
+          <div>
+            <div class="price">₹ 595</div>
+            <div class="coupon">DETAN15</div>
+          </div>
+          <button class="add-btn">ADD</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+  <script>
+
+    let cartCount = 0;
+    document.querySelector('.cart-icon').addEventListener('click', () => {
+      cartCount++;
+      document.getElementById('cart-count').innerText = cartCount;
+    });
+
+  </script>
+</body>
+</html>
